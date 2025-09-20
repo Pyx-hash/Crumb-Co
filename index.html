@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crumb & Co - Online Pre-Order | Food Shop</title>
+    <link rel="icon" href="assets/logo.png" type="image/png">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/app.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">Crumb & <span>Co</span></div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-page="home">Menu</a>
+                <a href="#" class="nav-link" data-page="cart">Cart <span class="cart-count">0</span></a>
+                <a href="#" class="nav-link" data-page="admin-login">Admin</a>
+            </div>
+        </div>
+    </header>
+    <main class="container">
+        <section id="home" class="page active">
+            <h1 class="page-title">Our Menu</h1>
+            <div class="filters">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Search food items...">
+                    <button class="search-btn">Search</button>
+                </div>
+                <div class="filter-options">
+                    <div class="filter-group">
+                        <label for="category-filter">Category</label>
+                        <select id="category-filter" class="filter-select">
+                            <option value="all">All Categories</option>
+                            <option value="meal">Meals</option>
+                            <option value="drink">Drinks</option>
+                            <option value="dessert">Desserts</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="price-filter">Price Range</label>
+                        <select id="price-filter" class="filter-select">
+                            <option value="all">All Prices</option>
+                            <option value="0-10">₱0 - ₱10</option>
+                            <option value="10-20">₱10 - ₱20</option>
+                            <option value="20+">₱20+</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-grid" id="menu-items">
+
+            </div>
+        </section>
+
+        <section id="cart" class="page">
+            <h1 class="page-title">Your Cart</h1>
+            <div class="cart-items" id="cart-items-container">
+
+                <div class="empty-cart-message" id="empty-cart-message">
+                    <p>Your cart is empty. Start adding some delicious food!</p>
+                </div>
+            </div>
+
+            <div class="cart-summary" id="cart-summary" style="display: none;">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal">₱0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax (8%)</span>
+                    <span id="cart-tax">₱0.00</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total:</span>
+                    <span id="cart-total">₱0.00</span>
+                </div>
+                <button class="checkout-btn" id="checkout-btn">Proceed to Checkout</button>
+            </div>
+        </section>
+
+        <section id="checkout" class="page">
+            <h1 class="page-title">Checkout</h1>
+
+            <div class="checkout-form">
+                <div class="form-group">
+                    <label for="fullname" class="form-label">Full Name</label>
+                    <input type="text" id="fullname" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="section" class="form-label">Section</label>
+                    <input type="text" id="section" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-input" required>
+                </div>
+                <button class="place-order-btn" id="place-order-btn">Place Order</button>
+            </div>
+
+            <div class="cart-summary">
+                <h3>Order Summary</h3>
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="checkout-subtotal">₱0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax (8%):</span>
+                    <span id="checkout-tax">₱0.00</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total:</span>
+                    <span id="checkout-total">₱0.00</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="confirmation" class="page">
+            <h1 class="page-title">Order Confirmation</h1>
+            <div class="receipt" id="receipt">
+
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="print-btn" id="print-receipt-btn">Print Receipt</button>
+                <button class="admin-btn" id="back-to-menu-btn">Back to Menu</button>
+            </div>
+        </section>
+
+        <section id="admin-login" class="page">
+            <div class="login-container">
+                <h2 class="login-title">Admin Login</h2>
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-input" required>
+                </div>
+                <button class="checkout-btn" id="login-btn">Login</button>
+            </div>
+        </section>
+
+        <section id="admin-dashboard" class="page">
+            <div class="admin-header">
+                <h1 class="page-title">Admin Dashboard</h1>
+                <div class="admin-actions">
+                    <button class="admin-btn" id="export-csv-btn">Export tot CSV</button>
+                    <button class="admin-btn" id="logout-btn">Logout</button>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="search-box">
+                    <input type="text" class="search-input" id="order-search" placeholder="Search Orders...">
+                    <button class="search-btn" id="order-search-btn">Search</button>
+                </div>
+            </div>
+
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-table-body">
+
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>Crumb & Co</h3>
+                <p>Pre-order your favorite CakePop for pickup or delivery.
+                    Fresh, delicious food made just for you!
+                </p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#" class="nav-link" data-page="home">Menu</a></li>
+                    <li><a href="About Us.html">About Us</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>Holy Rosary Academy of Las Piñas City</p>
+                <p>Phone: (+63)909****641</p>
+                <p>Email: crumb&co@example.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Crumb & Co. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -3,206 +3,1448 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crumb & Co - Online Pre-Order | Food Shop</title>
-    <link rel="icon" href="assets/logo.png" type="image/png">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <script src="assets/js/app.js"></script>
+    <title>Crumb & Co - Online Pre-order Food Shop</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #e74c3c;
+            --primary-dark: #c0392b;
+            --secondary: #27ae60;
+            --secondary-dark: #219150;
+            --accent: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --gray: #95a5a6;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main Sections */
+        .section {
+            display: none;
+            padding: 2rem 0;
+            min-height: calc(100vh - 180px);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            text-align: center;
+        }
+
+        /* Dashboard */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray);
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--dark);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Forms */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .food-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .food-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .food-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .food-info {
+            padding: 1.5rem;
+        }
+
+        .food-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .food-description {
+            color: var(--gray);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .food-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .food-price {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        /* Cart */
+        .cart-items {
+            margin-bottom: 2rem;
+        }
+
+        .cart-total {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-total-item {
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-top: 1px solid #eee;
+            padding-top: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Filter Controls */
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            background-color: white;
+            font-size: 1rem;
+            min-width: 150px;
+        }
+
+        /* Messages */
+        .message {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: var(--border-radius);
+        }
+
+        .message-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                justify-content: center;
+            }
+            
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            th, td {
+                padding: 0.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Receipt Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .receipt-content {
+            font-family: monospace;
+            white-space: pre-wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+
+        /* Print Styles */
+        @media print {
+            header, nav, .controls, .modal-footer .btn:not(.btn-primary) {
+                display: none !important;
+            }
+            
+            .modal {
+                position: static;
+                background-color: white;
+                display: block !important;
+            }
+            
+            .modal-content {
+                max-width: 100%;
+                box-shadow: none;
+                padding: 0;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <div class="container header-container">
-            <div class="logo">Crumb & <span>Co</span></div>
-            <div class="nav-links">
-                <a href="#" class="nav-link active" data-page="home">Menu</a>
-                <a href="#" class="nav-link" data-page="cart">Cart <span class="cart-count">0</span></a>
-                <a href="#" class="nav-link" data-page="admin-login">Admin</a>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <img src="favicon.jpg" alt="Logo" style="border-radius: 50%; width: 50px;" > 
+                    Crumb & <span>Co</span>
+                </a>
+                <nav>
+                    <ul>
+                        <li><button class="nav-button" data-section="menu-section">Menu</button></li>
+                        <li><button class="nav-button" data-section="cart-section">Cart</button></li>
+                        <li><button class="nav-button" data-section="admin-section">Admin</button></li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </header>
-    <main class="container">
-        <section id="home" class="page active">
-            <h1 class="page-title">Our Menu</h1>
-            <div class="filters">
-                <div class="search-box">
-                    <input type="text" class="search-input" placeholder="Search food items...">
-                    <button class="search-btn">Search</button>
+
+    <main>
+        <!-- Menu Section -->
+        <section id="menu-section" class="section active">
+            <div class="container">
+                <h2 class="section-title">Our Menu</h2>
+                
+                <div class="filter-controls">
+                    <input type="search" class="search-input" placeholder="Search menu items..." id="search-input">
+                    <select class="filter-select" id="category-filter">
+                        <option value="all">All Categories</option>
+                        <option value="Meals">Meals</option>
+                        <option value="Drinks">Drinks</option>
+                        <option value="Desserts">Desserts</option>
+                    </select>
                 </div>
-                <div class="filter-options">
-                    <div class="filter-group">
-                        <label for="category-filter">Category</label>
-                        <select id="category-filter" class="filter-select">
-                            <option value="all">All Categories</option>
-                            <option value="meal">Meals</option>
-                            <option value="drink">Drinks</option>
-                            <option value="dessert">Desserts</option>
-                        </select>
+                
+                <div class="menu-grid" id="menu-grid">
+                    <!-- Menu items will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Cart Section -->
+        <section id="cart-section" class="section">
+            <div class="container">
+                <h2 class="section-title">Your Cart</h2>
+                
+                <div id="cart-items">
+                    <!-- Cart items will be populated by JavaScript -->
+                </div>
+                
+                <div class="cart-total">
+                    <div class="cart-summary-item">
+                        <span>Subtotal:</span>
+                        <span id="cart-subtotal">₱0.00</span>
                     </div>
-                    <div class="filter-group">
-                        <label for="price-filter">Price Range</label>
-                        <select id="price-filter" class="filter-select">
-                            <option value="all">All Prices</option>
-                            <option value="0-10">₱0 - ₱10</option>
-                            <option value="10-20">₱10 - ₱20</option>
-                            <option value="20+">₱20+</option>
-                        </select>
+                    <div class="cart-summary-item">
+                        <span>Tax (10%):</span>
+                        <span id="cart-tax">₱0.00</span>
+                    </div>
+                    <div class="cart-summary-item cart-total-item">
+                        <span>Total:</span>
+                        <span id="cart-total">₱0.00</span>
                     </div>
                 </div>
-            </div>
-            <div class="menu-grid" id="menu-items">
-
-            </div>
-        </section>
-
-        <section id="cart" class="page">
-            <h1 class="page-title">Your Cart</h1>
-            <div class="cart-items" id="cart-items-container">
-
-                <div class="empty-cart-message" id="empty-cart-message">
-                    <p>Your cart is empty. Start adding some delicious food!</p>
-                </div>
-            </div>
-
-            <div class="cart-summary" id="cart-summary" style="display: none;">
-                <div class="summary-row">
-                    <span>Subtotal:</span>
-                    <span id="cart-subtotal">₱0.00</span>
-                </div>
-                <div class="summary-row">
-                    <span>Tax (8%)</span>
-                    <span id="cart-tax">₱0.00</span>
-                </div>
-                <div class="summary-row summary-total">
-                    <span>Total:</span>
-                    <span id="cart-total">₱0.00</span>
-                </div>
-                <button class="checkout-btn" id="checkout-btn">Proceed to Checkout</button>
-            </div>
-        </section>
-
-        <section id="checkout" class="page">
-            <h1 class="page-title">Checkout</h1>
-
-            <div class="checkout-form">
-                <div class="form-group">
-                    <label for="fullname" class="form-label">Full Name</label>
-                    <input type="text" id="fullname" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label for="section" class="form-label">Section</label>
-                    <input type="text" id="section" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" class="form-input" required>
-                </div>
-                <button class="place-order-btn" id="place-order-btn">Place Order</button>
-            </div>
-
-            <div class="cart-summary">
-                <h3>Order Summary</h3>
-                <div class="summary-row">
-                    <span>Subtotal:</span>
-                    <span id="checkout-subtotal">₱0.00</span>
-                </div>
-                <div class="summary-row">
-                    <span>Tax (8%):</span>
-                    <span id="checkout-tax">₱0.00</span>
-                </div>
-                <div class="summary-row summary-total">
-                    <span>Total:</span>
-                    <span id="checkout-total">₱0.00</span>
+                
+                <div class="form-container">
+                    <h3>Checkout Information</h3>
+                    <form id="checkout-form">
+                        <div class="form-group">
+                            <label for="customer-name" class="form-label">Full Name</label>
+                            <input type="text" id="customer-name" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-email" class="form-label">Email Address</label>
+                            <input type="email" id="customer-email" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-address" class="form-label">Delivery Address</label>
+                            <textarea id="customer-address" class="form-input" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Place Order</button>
+                    </form>
                 </div>
             </div>
         </section>
 
-        <section id="confirmation" class="page">
-            <h1 class="page-title">Order Confirmation</h1>
-            <div class="receipt" id="receipt">
-
-            </div>
-            <div style="text-align: center; margin-top: 20px;">
-                <button class="print-btn" id="print-receipt-btn">Print Receipt</button>
-                <button class="admin-btn" id="back-to-menu-btn">Back to Menu</button>
-            </div>
-        </section>
-
-        <section id="admin-login" class="page">
-            <div class="login-container">
-                <h2 class="login-title">Admin Login</h2>
-                <div class="form-group">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" class="form-input" required>
+        <!-- Admin Section -->
+        <section id="admin-section" class="section">
+            <div class="container">
+                <!-- Login Form -->
+                <div id="admin-login">
+                    <div class="form-container">
+                        <h2 class="section-title">Admin Login</h2>
+                        <form id="login-form">
+                            <div class="form-group">
+                                <label for="admin-username" class="form-label">Username</label>
+                                <input type="text" id="admin-username" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-password" class="form-label">Password</label>
+                                <input type="password" id="admin-password" class="form-input" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" class="form-input" required>
+                
+                <!-- Admin Dashboard -->
+                <div id="admin-dashboard" style="display: none;">
+                    <h2 class="section-title">Admin Dashboard</h2>
+                    
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="stat-value" id="total-orders">0</div>
+                            <div class="stat-label">Total Orders</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="total-revenue">₱0.00</div>
+                            <div class="stat-label">Total Revenue</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="pending-orders">0</div>
+                            <div class="stat-label">Pending Orders</div>
+                        </div>
+                    </div>
+                    
+                    <div class="controls">
+                        <div class="search-box">
+                            <span class="search-icon">🔍</span>
+                            <input type="search" class="search-input" placeholder="Search orders..." id="admin-search">
+                        </div>
+                        <button class="btn btn-secondary" id="export-csv">Export to CSV</button>
+                        <button class="btn btn-outline" id="admin-logout">Logout</button>
+                    </div>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body">
+                            <!-- Orders will be populated by JavaScript -->
+                        </tbody>
+                    </table>
                 </div>
-                <button class="checkout-btn" id="login-btn">Login</button>
             </div>
-        </section>
-
-        <section id="admin-dashboard" class="page">
-            <div class="admin-header">
-                <h1 class="page-title">Admin Dashboard</h1>
-                <div class="admin-actions">
-                    <button class="admin-btn" id="export-csv-btn">Export tot CSV</button>
-                    <button class="admin-btn" id="logout-btn">Logout</button>
-                </div>
-            </div>
-
-            <div class="filters">
-                <div class="search-box">
-                    <input type="text" class="search-input" id="order-search" placeholder="Search Orders...">
-                    <button class="search-btn" id="order-search-btn">Search</button>
-                </div>
-            </div>
-
-            <table class="orders-table">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer</th>
-                        <th>Email</th>
-                        <th>Items</th>
-                        <th>Total</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="orders-table-body">
-
-                </tbody>
-            </table>
         </section>
     </main>
 
-    <footer>
-        <div class="container footer-container">
-            <div class="footer-section">
-                <h3>Crumb & Co</h3>
-                <p>Pre-order your favorite CakePop for pickup or delivery.
-                    Fresh, delicious food made just for you!
-                </p>
+    <!-- Receipt Modal -->
+    <div class="modal" id="receipt-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Order Receipt</h3>
+                <button class="close-button" id="close-receipt">&times;</button>
             </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#" class="nav-link" data-page="home">Menu</a></li>
-                    <li><a href="About Us.html">About Us</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Info</h3>
-                <p>Holy Rosary Academy of Las Piñas City</p>
-                <p>Phone: (+63)909****641</p>
-                <p>Email: crumb&co@example.com</p>
+            <div class="receipt-content" id="receipt-content"></div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="close-receipt-btn">Close</button>
+                <button class="btn btn-primary" id="print-receipt">Print Receipt</button>
             </div>
         </div>
+    </div>
 
-        <div class="footer-bottom">
-            <p>&copy; 2025 Crumb & Co. All Rights Reserved.</p>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Crumb & Co - Online Pre-order Food Shop</p>
         </div>
     </footer>
+
+    <script>
+        // =========================================================================
+        // DATABASE SETUP
+        // =========================================================================
+        // This app uses IndexedDB as the primary database, with localStorage as fallback
+        // To change login credentials, modify the ADMIN_CREDENTIALS object below
+        // To add/edit food items, modify the FOOD_ITEMS array below
+        // Orders are stored with all details for management and export
+        
+        // Admin credentials (can be changed here)
+        const ADMIN_CREDENTIALS = {
+            username: 'admin@crumb&co',
+            password: 'admin@crumb&co'
+        };
+        
+        // Food items data
+        const FOOD_ITEMS = [
+            {
+                id: 1,
+                name: 'Margherita Pizza',
+                description: 'Classic pizza with tomato sauce, mozzarella, and fresh basil',
+                price: 12.99,
+                category: 'Meals',
+                image: 'https://cdn.loveandlemons.com/wp-content/uploads/opengraph/2023/07/margherita-pizza-recipe.jpg'
+            },
+            {
+                id: 2,
+                name: 'Pepperoni Pizza',
+                description: 'Traditional pizza with tomato sauce, mozzarella, and pepperoni',
+                price: 14.99,
+                category: 'Meals',
+                image: 'https://arecipeforfun.com/wp-content/uploads/2025/03/Edits-Turkey-Pepperoni-Pizza-Recipe-14.jpg'
+            },
+            {
+                id: 3,
+                name: 'Veggie Burger',
+                description: 'Plant-based burger with fresh vegetables and special sauce',
+                price: 10.99,
+                category: 'Meals',
+                image: 'https://placeholder-image-service.onrender.com/image/400x300?prompt=Veggie Burger with fresh vegetables and special sauce&id=3'
+            },
+            {
+                id: 4,
+                name: 'Grilled Chicken Sandwich',
+                description: 'Juicy grilled chicken with lettuce, tomato, and mayo',
+                price: 11.99,
+                category: 'Meals',
+                image: 'https://placeholder-image-service.onrender.com/image/400x300?prompt=Grilled Chicken Sandwich with lettuce, tomato, and mayo&id=4'
+            },
+            {
+                id: 5,
+                name: 'Caesar Salad',
+                description: 'Fresh romaine lettuce with Caesar dressing, croutons, and parmesan',
+                price: 8.99,
+                category: 'Meals',
+                image: 'https://placeholder-image-service.onrender.com/image/400x300?prompt=Caesar Salad with romaine lettuce, Caesar dressing, croutons, and parmesan&id=5'
+            },
+            {
+                id: 6,
+                name: 'Chocolate Milkshake',
+                description: 'Creamy chocolate milkshake topped with whipped cream',
+                price: 5.99,
+                category: 'Drinks',
+                image: 'https://placeholder-image-service.onrender.com/image/400x300?prompt=Creamy chocolate milkshake topped with whipped cream&id=6'
+            },
+            {
+                id: 7,
+                name: 'Fresh Lemonade',
+                description: 'Refreshing homemade lemonade with a hint of mint',
+                price: 4.99,
+                category: 'Drinks',
+                image: 'https://placeholder-image-service.onrender.com/image/400x300?prompt=Refreshing homemade lemonade with a hint of mint&id=7'
+            },
+            {
+                id: 8,
+                name: 'Iced Coffee',
+                description: 'Chilled coffee with cream and custom sweetness options',
+                price: 4.49,
+                category: 'Drinks',
+                image: 'https://placeholder-image-service.onrender.com/image/400x300?prompt=Chilled coffee with cream and custom sweetness options&id=8'
+            },
+            {
+                id: 9,
+                name: 'Chocolate Cake',
+                description: 'Rich chocolate cake with chocolate frosting',
+                price: 6.99,
+                category: 'Desserts',
+                image: 'https://placeholder-image-service.onrender.com/image/400x300?prompt=Rich chocolate cake with chocolate frosting&id=9'
+            },
+            {
+                id: 10,
+                name: 'Cheesecake',
+                description: 'Creamy New York style cheesecake with berry compote',
+                price: 7.99,
+                category: 'Desserts',
+                image: 'https://placeholder-image-service.onrender.com/image/400x300?prompt=Creamy New York style cheesecake with berry compote&id=10'
+            }
+        ];
+        
+        // Database and state management
+        let db = null;
+        let cart = [];
+        let orders = [];
+        let currentSection = 'menu-section';
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDatabase();
+            setupEventListeners();
+            renderMenuItems();
+            updateCartDisplay();
+        });
+        
+        // Initialize IndexedDB database
+        function initializeDatabase() {
+            // Try to use IndexedDB
+            if ('indexedDB' in window) {
+                const request = indexedDB.open('FoodShopDB', 1);
+                
+                request.onerror = function(event) {
+                    console.error('IndexedDB error:', event.target.error);
+                    // Fallback to localStorage
+                    initializeLocalStorage();
+                };
+                
+                request.onsuccess = function(event) {
+                    db = event.target.result;
+                    loadOrders();
+                };
+                
+                request.onupgradeneeded = function(event) {
+                    const db = event.target.result;
+                    
+                    // Create orders object store if it doesn't exist
+                    if (!db.objectStoreNames.contains('orders')) {
+                        const ordersStore = db.createObjectStore('orders', { keyPath: 'id', autoIncrement: true });
+                        ordersStore.createIndex('date', 'date', { unique: false });
+                    }
+                };
+            } else {
+                // Fallback to localStorage
+                initializeLocalStorage();
+            }
+        }
+        
+        // Initialize localStorage as fallback database
+        function initializeLocalStorage() {
+            console.log('Using localStorage as database');
+            const storedOrders = localStorage.getItem('foodShopOrders');
+            if (storedOrders) {
+                orders = JSON.parse(storedOrders);
+            }
+        }
+        
+        // Load orders from database
+        function loadOrders() {
+            if (db) {
+                const transaction = db.transaction(['orders'], 'readonly');
+                const store = transaction.objectStore('orders');
+                const request = store.getAll();
+                
+                request.onsuccess = function() {
+                    orders = request.result;
+                    if (currentSection === 'admin-section' && document.getElementById('admin-dashboard').style.display !== 'none') {
+                        renderOrdersTable();
+                        updateDashboardStats();
+                    }
+                };
+                
+                request.onerror = function(event) {
+                    console.error('Error loading orders:', event.target.error);
+                };
+            } else {
+                // Using localStorage
+                if (currentSection === 'admin-section' && document.getElementById('admin-dashboard').style.display !== 'none') {
+                    renderOrdersTable();
+                    updateDashboardStats();
+                }
+            }
+        }
+        
+        // Save order to database
+        function saveOrder(order, callback) {
+            order.id = Date.now(); // Use timestamp as unique ID
+            
+            if (db) {
+                const transaction = db.transaction(['orders'], 'readwrite');
+                const store = transaction.objectStore('orders');
+                const request = store.add(order);
+                
+                request.onsuccess = function() {
+                    orders.push(order);
+                    if (callback) callback(order);
+                };
+                
+                request.onerror = function(event) {
+                    console.error('Error saving order:', event.target.error);
+                    if (callback) callback(null);
+                };
+            } else {
+                // Using localStorage
+                orders.push(order);
+                localStorage.setItem('foodShopOrders', JSON.stringify(orders));
+                if (callback) callback(order);
+            }
+        }
+        
+        // =========================================================================
+        // UI RENDERING FUNCTIONS
+        // =========================================================================
+        
+        // Render menu items based on current filters
+        function renderMenuItems() {
+            const menuGrid = document.getElementById('menu-grid');
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const categoryFilter = document.getElementById('category-filter').value;
+            
+            // Clear current menu
+            menuGrid.innerHTML = '';
+            
+            // Filter food items
+            const filteredItems = FOOD_ITEMS.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(searchTerm) || 
+                                    item.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = categoryFilter === 'all' || item.category === categoryFilter;
+                return matchesSearch && matchesCategory;
+            });
+            
+            // Render filtered items
+            if (filteredItems.length === 0) {
+                menuGrid.innerHTML = '<p class="message">No menu items found matching your criteria.</p>';
+                return;
+            }
+            
+            filteredItems.forEach(item => {
+                const foodCard = document.createElement('div');
+                foodCard.className = 'food-card';
+                foodCard.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="food-image">
+                    <div class="food-info">
+                        <h3 class="food-title">${item.name}</h3>
+                        <p class="food-description">${item.description}</p>
+                        <div class="food-footer">
+                            <span class="food-price">₱${item.price.toFixed(2)}</span>
+                            <button class="btn btn-primary" data-id="${item.id}">Add to Cart</button>
+                        </div>
+                    </div>
+                `;
+                menuGrid.appendChild(foodCard);
+            });
+            
+            // Add event listeners to add-to-cart buttons
+            document.querySelectorAll('.food-card .btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemId = parseInt(this.getAttribute('data-id'));
+                    addToCart(itemId);
+                });
+            });
+        }
+        
+        // Update cart display
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cart-items');
+            const cartSubtotal = document.getElementById('cart-subtotal');
+            const cartTax = document.getElementById('cart-tax');
+            const cartTotal = document.getElementById('cart-total');
+            
+            // Clear current cart display
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="message">Your cart is empty. Add some delicious items from our menu!</p>';
+                cartSubtotal.textContent = '₱0.00';
+                cartTax.textContent = '₱0.00';
+                cartTotal.textContent = '₱0.00';
+                return;
+            }
+            
+            // Calculate totals
+            let subtotal = 0;
+            
+            // Create cart items table
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            `;
+            
+            const tbody = table.querySelector('tbody');
+            
+            // Add each cart item to the table
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>$${item.price.toFixed(2)}</td>
+                    <td>
+                        <button class="btn btn-outline qty-btn" data-id="${item.id}" data-action="decrease">-</button>
+                        ${item.quantity}
+                        <button class="btn btn-outline qty-btn" data-id="${item.id}" data-action="increase">+</button>
+                    </td>
+                    <td>$${itemTotal.toFixed(2)}</td>
+                    <td><button class="btn btn-outline remove-btn" data-id="${item.id}">Remove</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            cartItems.appendChild(table);
+            
+            // Calculate tax and total
+            const tax = subtotal * 0.1; // 10% tax
+            const total = subtotal + tax;
+            
+            // Update total display
+            cartSubtotal.textContent = `₱${subtotal.toFixed(2)}`;
+            cartTax.textContent = `₱${tax.toFixed(2)}`;
+            cartTotal.textContent = `₱${total.toFixed(2)}`;
+            
+            // Add event listeners to quantity buttons
+            document.querySelectorAll('.qty-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemId = parseInt(this.getAttribute('data-id'));
+                    const action = this.getAttribute('data-action');
+                    updateCartItemQuantity(itemId, action);
+                });
+            });
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.remove-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemId = parseInt(this.getAttribute('data-id'));
+                    removeFromCart(itemId);
+                });
+            });
+        }
+        
+        // Render orders table in admin dashboard
+        function renderOrdersTable(searchTerm = '') {
+            const tableBody = document.getElementById('orders-table-body');
+            
+            // Clear current table
+            tableBody.innerHTML = '';
+            
+            // Filter orders if search term provided
+            let filteredOrders = orders;
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filteredOrders = orders.filter(order => 
+                    order.id.toString().includes(term) ||
+                    order.customerName.toLowerCase().includes(term) ||
+                    order.customerEmail.toLowerCase().includes(term)
+                );
+            }
+            
+            if (filteredOrders.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No orders found.</td></tr>';
+                return;
+            }
+            
+            // Sort orders by date (newest first)
+            filteredOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Add orders to table
+            filteredOrders.forEach(order => {
+                const row = document.createElement('tr');
+                
+                // Format items list
+                const itemsList = order.items.map(item => 
+                    `${item.quantity}x ${item.name} - ₱${(item.price * item.quantity).toFixed(2)}`
+                ).join('\n');
+                
+                // Format date
+                const orderDate = new Date(order.date);
+                const formattedDate = `${orderDate.toLocaleDateString()} ${orderDate.toLocaleTimeString()}`;
+                
+                row.innerHTML = `
+                    <td>#${order.id}</td>
+                    <td>${order.customerName}<br>${order.customerEmail}</td>
+                    <td>${itemsList}</td>
+                    <td>₱${order.total.toFixed(2)}</td>
+                    <td>${formattedDate}</td>
+                    <td class="action-buttons">
+                        <button class="btn btn-outline view-receipt-btn" data-id="${order.id}">View Receipt</button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Add event listeners to view receipt buttons
+            document.querySelectorAll('.view-receipt-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const orderId = parseInt(this.getAttribute('data-id'));
+                    showReceipt(orderId);
+                });
+            });
+        }
+        
+        // Update admin dashboard statistics
+        function updateDashboardStats() {
+            document.getElementById('total-orders').textContent = orders.length;
+            
+            const totalRevenue = orders.reduce((total, order) => total + order.total, 0);
+            document.getElementById('total-revenue').textContent = `₱${totalRevenue.toFixed(2)}`;
+            
+            // For simplicity, we'll consider all orders as pending
+            document.getElementById('pending-orders').textContent = orders.length;
+        }
+        
+        // =========================================================================
+        // CART MANAGEMENT
+        // =========================================================================
+        
+        // Add item to cart
+        function addToCart(itemId) {
+            const item = FOOD_ITEMS.find(i => i.id === itemId);
+            if (!item) return;
+            
+            // Check if item already in cart
+            const existingItem = cart.find(i => i.id === itemId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: 1
+                });
+            }
+            
+            updateCartDisplay();
+            
+            // Show message
+            showMessage(`Added ${item.name} to cart!`, 'success');
+        }
+        
+        // Update item quantity in cart
+        function updateCartItemQuantity(itemId, action) {
+            const item = cart.find(i => i.id === itemId);
+            if (!item) return;
+            
+            if (action === 'increase') {
+                item.quantity += 1;
+            } else if (action === 'decrease') {
+                item.quantity -= 1;
+                if (item.quantity === 0) {
+                    removeFromCart(itemId);
+                    return;
+                }
+            }
+            
+            updateCartDisplay();
+        }
+        
+        // Remove item from cart
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCartDisplay();
+            
+            // Show message
+            const item = FOOD_ITEMS.find(i => i.id === itemId);
+            if (item) {
+                showMessage(`Removed ${item.name} from cart.`, 'success');
+            }
+        }
+        
+        // Clear cart
+        function clearCart() {
+            cart = [];
+            updateCartDisplay();
+        }
+        
+        // =========================================================================
+        // ORDER MANAGEMENT
+        // =========================================================================
+        
+        // Process checkout
+        function processCheckout(event) {
+            event.preventDefault();
+            
+            // Validate cart
+            if (cart.length === 0) {
+                showMessage('Your cart is empty. Add items before checking out.', 'error');
+                return;
+            }
+            
+            // Get form values
+            const customerName = document.getElementById('customer-name').value;
+            const customerEmail = document.getElementById('customer-email').value;
+            const customerAddress = document.getElementById('customer-address').value;
+            
+            // Calculate order totals
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.1;
+            const total = subtotal + tax;
+            
+            // Create order object
+            const order = {
+                customerName,
+                customerEmail,
+                customerAddress,
+                items: [...cart],
+                subtotal,
+                tax,
+                total,
+                date: new Date().toISOString()
+            };
+            
+            // Save order to database
+            saveOrder(order, function(savedOrder) {
+                if (savedOrder) {
+                    // Clear cart and form
+                    clearCart();
+                    document.getElementById('checkout-form').reset();
+                    
+                    // Show success message and receipt
+                    showMessage('Order placed successfully!', 'success');
+                    showReceipt(savedOrder.id);
+                    
+                    // If on admin dashboard, refresh orders
+                    if (currentSection === 'admin-section' && document.getElementById('admin-dashboard').style.display !== 'none') {
+                        loadOrders();
+                    }
+                } else {
+                    showMessage('Failed to place order. Please try again.', 'error');
+                }
+            });
+        }
+        
+        // Show receipt for an order
+        function showReceipt(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            // Format receipt content
+            const receiptContent = document.getElementById('receipt-content');
+            let receiptText = `
+                CRUMB & CO FOOD SHOP
+                ======================
+                
+                ORDER RECEIPT
+                Order ID: #${order.id}
+                Date: ${new Date(order.date).toLocaleString()}
+                
+                CUSTOMER INFORMATION
+                Name: ${order.customerName}
+                Email: ${order.customerEmail}
+                Address: ${order.customerAddress}
+                
+                ORDER DETAILS
+                ------------------------------
+            `;
+            
+            order.items.forEach(item => {
+                receiptText += `
+                ${item.quantity}x ${item.name}
+                    ₱${item.price.toFixed(2)} each = ₱${(item.price * item.quantity).toFixed(2)}
+                `;
+            });
+            
+            receiptText += `
+                ------------------------------
+                Subtotal: ₱${order.subtotal.toFixed(2)}
+                Tax (10%): ₱${order.tax.toFixed(2)}
+                TOTAL: ₱${order.total.toFixed(2)}
+                
+                Thank you for your order!
+                ======================
+            `;
+            
+            receiptContent.textContent = receiptText;
+            
+            // Show modal
+            document.getElementById('receipt-modal').classList.add('active');
+        }
+        
+        // Export orders to CSV
+        function exportToCSV() {
+            if (orders.length === 0) {
+                showMessage('No orders to export.', 'error');
+                return;
+            }
+            
+            // Create CSV content
+            let csvContent = 'Order ID,Customer Name,Email,Address,Items,Total,Date\n';
+            
+            orders.forEach(order => {
+                // Format items for CSV
+                const itemsText = order.items.map(item => 
+                    `${item.quantity}x ${item.name}`
+                ).join('; ');
+                
+                // Escape quotes in fields
+                const escape = (field) => `"${String(field).replace(/"/g, '""')}"`;
+                
+                csvContent += [
+                    order.id,
+                    escape(order.customerName),
+                    escape(order.customerEmail),
+                    escape(order.customerAddress),
+                    escape(itemsText),
+                    order.total.toFixed(2),
+                    new Date(order.date).toLocaleString()
+                ].join(',') + '\n';
+            });
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `crumb&co-orders-${new Date().toISOString().slice(0, 10)}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        // =========================================================================
+        // UI UTILITY FUNCTIONS
+        // =========================================================================
+        
+        // Show message to user
+        function showMessage(text, type) {
+            // Remove any existing messages
+            const existingMessages = document.querySelectorAll('.message');
+            existingMessages.forEach(msg => msg.remove());
+            
+            // Create new message
+            const message = document.createElement('div');
+            message.className = `message message-${type}`;
+            message.textContent = text;
+            
+            // Add to current section
+            const currentSection = document.querySelector('.section.active');
+            currentSection.insertBefore(message, currentSection.firstChild);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (message.parentNode) {
+                    message.parentNode.removeChild(message);
+                }
+            }, 5000);
+        }
+        
+        // Switch between sections
+        function switchSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            currentSection = sectionId;
+            
+            // Special handling for different sections
+            if (sectionId === 'admin-section') {
+                // If already logged in, show dashboard
+                if (localStorage.getItem('adminLoggedIn') === 'true') {
+                    document.getElementById('admin-login').style.display = 'none';
+                    document.getElementById('admin-dashboard').style.display = 'block';
+                    loadOrders();
+                } else {
+                    document.getElementById('admin-login').style.display = 'block';
+                    document.getElementById('admin-dashboard').style.display = 'none';
+                }
+            }
+        }
+        
+        // Handle admin login
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+            
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                // Successful login
+                localStorage.setItem('adminLoggedIn', 'true');
+                document.getElementById('admin-login').style.display = 'none';
+                document.getElementById('admin-dashboard').style.display = 'block';
+                loadOrders();
+            } else {
+                showMessage('Invalid username or password.', 'error');
+            }
+        }
+        
+        // Handle admin logout
+        function handleAdminLogout() {
+            localStorage.removeItem('adminLoggedIn');
+            document.getElementById('admin-login').style.display = 'block';
+            document.getElementById('admin-dashboard').style.display = 'none';
+            document.getElementById('login-form').reset();
+        }
+        
+        // =========================================================================
+        // EVENT LISTENERS SETUP
+        // =========================================================================
+        
+        // Set up all event listeners
+        function setupEventListeners() {
+            // Navigation
+            document.querySelectorAll('.nav-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    switchSection(this.getAttribute('data-section'));
+                });
+            });
+            
+            // Menu search and filter
+            document.getElementById('search-input').addEventListener('input', renderMenuItems);
+            document.getElementById('category-filter').addEventListener('change', renderMenuItems);
+            
+            // Checkout form
+            document.getElementById('checkout-form').addEventListener('submit', processCheckout);
+            
+            // Admin login
+            document.getElementById('login-form').addEventListener('submit', handleAdminLogin);
+            document.getElementById('admin-logout').addEventListener('click', handleAdminLogout);
+            
+            // Admin search
+            document.getElementById('admin-search').addEventListener('input', function() {
+                renderOrdersTable(this.value);
+            });
+            
+            // CSV export
+            document.getElementById('export-csv').addEventListener('click', exportToCSV);
+            
+            // Receipt modal
+            document.getElementById('close-receipt').addEventListener('click', function() {
+                document.getElementById('receipt-modal').classList.remove('active');
+            });
+            
+            document.getElementById('close-receipt-btn').addEventListener('click', function() {
+                document.getElementById('receipt-modal').classList.remove('active');
+            });
+            
+            document.getElementById('print-receipt').addEventListener('click', function() {
+                window.print();
+            });
+        }
+    </script>
 </body>
 </html>
